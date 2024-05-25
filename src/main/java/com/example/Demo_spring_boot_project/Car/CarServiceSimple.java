@@ -1,4 +1,4 @@
-package Car;
+package com.example.Demo_spring_boot_project.Car;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,14 +13,14 @@ public class CarServiceSimple implements CarInterface<Integer, Car> {
       Integer carId=1;
     @Override
     public Car create(Car car){
-        Car caar1 =Car.builder()
+        Car car1 =Car.builder()
                 .id(carId)
                 .color(car.getColor())
                 .model(car.getColor())
                 .build();
-        carList.add(caar1);
-
-        return car;
+        carList.add(car1);
+        carId++;
+        return car1;
     }
 
     @Override

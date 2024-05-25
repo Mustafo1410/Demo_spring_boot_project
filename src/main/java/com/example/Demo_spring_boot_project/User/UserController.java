@@ -1,4 +1,4 @@
-package User;
+package com.example.Demo_spring_boot_project.User;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/user")
+@RequestMapping("api/user/")
 public class UserController  implements UserInterface<Integer,User>{
 private final UserServiceSimple userServiceSimple;
     @Override

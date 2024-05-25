@@ -1,4 +1,4 @@
-package Car;
+package com.example.Demo_spring_boot_project.Car;
 
 import lombok.*;
 

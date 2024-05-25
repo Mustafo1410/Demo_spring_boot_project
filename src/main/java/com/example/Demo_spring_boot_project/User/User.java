@@ -1,4 +1,4 @@
-package User;
+package com.example.Demo_spring_boot_project.User;
 
 import lombok.*;
 
