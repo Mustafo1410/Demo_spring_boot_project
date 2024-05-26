@@ -14,7 +14,11 @@ public interface BookService<K, V> {
 
     V delete(K id);
 
+    V deleteById(K id);
+
     List<V> getAll();
+
+    List<V> getAllDeletedAtIsNull();
 
     List<V> getAllDeletedAtIsNotNull();
 }

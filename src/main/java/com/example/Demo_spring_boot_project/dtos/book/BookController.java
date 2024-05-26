@@ -36,14 +36,26 @@ public class BookController implements BookService<Integer, BookDto> {
     }
 
     @Override
+    @DeleteMapping("/deleteById")
+    public BookDto deleteById(@RequestParam Integer id) {
+        return this.bookServiceImpl.deleteById(id);
+    }
+
+    @Override
     @GetMapping("/getAllDeletedAtIsNull")
-    public List<BookDto> getAll() {
-        return this.bookServiceImpl.getAll();
+    public List<BookDto> getAllDeletedAtIsNull() {
+        return this.bookServiceImpl.getAllDeletedAtIsNull();
     }
 
     @Override
     @GetMapping("/getAllDeletedAtIsNotNull")
     public List<BookDto> getAllDeletedAtIsNotNull() {
         return this.bookServiceImpl.getAllDeletedAtIsNotNull();
+    }
+
+    @Override
+    @GetMapping("/getAll")
+    public List<BookDto> getAll() {
+        return this.bookServiceImpl.getAll();
     }
 }

@@ -52,7 +52,6 @@ public class BookServiceImpl implements BookService<Integer, BookDto> {
         for (Book book : bookList) {
             if (book.getId().equals(id)) {
                 book.setDeletedAt(LocalDateTime.now());
-                //bookList.remove(book);
                 return this.bookMapper.toBookDto(book);
             }
         }
@@ -60,7 +59,18 @@ public class BookServiceImpl implements BookService<Integer, BookDto> {
     }
 
     @Override
-    public List<BookDto> getAll() {
+    public BookDto deleteById(Integer id) {
+        for (Book book : bookList) {
+            if (book.getId().equals(id)) {
+                bookList.remove(book);
+                return this.bookMapper.toBookDto(book);
+            }
+        }
+        return new BookDto();
+    }
+
+    @Override
+    public List<BookDto> getAllDeletedAtIsNull() {
         if (bookList.isEmpty()) {
             return new ArrayList<>();
         }
@@ -77,5 +87,13 @@ public class BookServiceImpl implements BookService<Integer, BookDto> {
         return bookList.stream()
                 .filter(book -> book.getDeletedAt() != null)
                 .map(this.bookMapper::toBookDto).toList();
+    }
+
+    @Override
+    public List<BookDto> getAll() {
+        if (bookList.isEmpty()) {
+            return new ArrayList<>();
+        }
+        return bookList.stream().map(this.bookMapper::toBookDto).toList();
     }
 }
