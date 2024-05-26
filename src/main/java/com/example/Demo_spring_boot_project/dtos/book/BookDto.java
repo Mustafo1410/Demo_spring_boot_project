@@ -18,6 +18,7 @@ public class BookDto {
     private String name;
     private Double price;
     private Integer page;
+    private boolean delete;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 public class BookConfig {
     private final BookServiceImpl bookServiceImpl;
 
-        @Scheduled(initialDelay = 1000,/*fixedDelay = 1000*/fixedRate = 1000,timeUnit = TimeUnit.MINUTES)
+  /*  @Scheduled(initialDelay = 1000,*//*fixedDelay = 1000*//*fixedRate = 1000, timeUnit = TimeUnit.MINUTES)
     public void getTimeEverySecond() {
         System.out.println("Date Every second" + new Date());
         try {
@@ -21,14 +21,14 @@ public class BookConfig {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
    /* @Scheduled(cron = "0-5 * * * * *")
     public void cronDAteEverySecond() {
         System.out.println("Date Every second" + new Date());
     }*/
 
-    @Scheduled(cron = "1 * * * * *")
+  /*  @Scheduled(cron = "1 * * * * *")
     public void deleteElementIsDeletedAtIsNotNull() {
         List<BookDto> all = this.bookServiceImpl.getAll();
         for (BookDto dto : all) {
@@ -37,5 +37,5 @@ public class BookConfig {
                 System.out.println("Deleted " + dto);
             }
         }
-    }
+    }*/
 }

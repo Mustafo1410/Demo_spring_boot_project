@@ -52,6 +52,7 @@ public class BookServiceImpl implements BookService<Integer, BookDto> {
         for (Book book : bookList) {
             if (book.getId().equals(id)) {
                 book.setDeletedAt(LocalDateTime.now());
+                //book.setDelete(true);
                 return this.bookMapper.toBookDto(book);
             }
         }
