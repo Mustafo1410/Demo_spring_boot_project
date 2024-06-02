@@ -52,6 +52,6 @@ public class AuthorServiceSimple implements AuthorServics<Integer, AuthorDto> {
 
     @Override
     public List<AuthorDto> getAll() {
-        return List.of();
+        return authorList.stream().map(this.authorMapper::toAuthorDto).toList();
     }
 }
