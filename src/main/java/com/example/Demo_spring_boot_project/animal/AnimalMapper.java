@@ -21,4 +21,8 @@ public class AnimalMapper {
                 .gender(animal.getGender())
                 .build();
     }
+
+    public void update(AnimalDto dto, Animal animal) {
+
+    }
 }

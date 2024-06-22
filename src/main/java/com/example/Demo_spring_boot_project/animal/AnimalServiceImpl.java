@@ -31,7 +31,11 @@ public class AnimalServiceImpl implements AnimalService<Integer, AnimalDto> {
 
     @Override
     public AnimalDto update(AnimalDto dto, Integer id) {
-        return null;
+        Animal animal = this.animalRepository.findById(id).get();
+        this.animalMapper.update(dto, animal);
+        this.animalRepository.save(animal);
+
+        return this.animalMapper.toDto(animal);
     }
 
     @Override
@@ -39,14 +43,18 @@ public class AnimalServiceImpl implements AnimalService<Integer, AnimalDto> {
         Optional<Animal> optional = this.animalRepository.findById(id);
         if (optional.isPresent()) {
             this.animalRepository.deleteById(id);
-            return this.animalMapper.toDto(optional.get());
+            Animal animal = optional.get();
+            return this.animalMapper.toDto(animal);
         }
         return new AnimalDto();
     }
 
     @Override
     public List<AnimalDto> getAll() {
-        List<Animal> all = this.animalRepository.findAll();
-        return all.stream().map(this.animalMapper::toDto).toList();
+       // List<Animal> all = this.animalRepository.findAll();
+        return this.animalRepository.findAll()
+                .stream()
+                .map(this.animalMapper::toDto)
+                .toList();
     }
 }

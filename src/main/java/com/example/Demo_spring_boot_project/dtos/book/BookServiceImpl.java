@@ -6,72 +6,71 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService<Integer, BookDto> {
     private final BookMapper bookMapper;
-    List<Book> bookList = new ArrayList<>();
-    Integer bookId = 1;
+    private final BookRepository bookRepository;
 
     @Override
     public BookDto create(BookDto dto) {
         Book book = this.bookMapper.toBook(dto);
-        book.setId(bookId);
         book.setCreatedAt(LocalDateTime.now());
-        this.bookList.add(book);
-        bookId++;
+        this.bookRepository.save(book);
         return this.bookMapper.toBookDto(book);
     }
 
     @Override
     public BookDto get(Integer id) {
-        for (Book book : bookList) {
-            if (book.getId().equals(id)) {
-                return this.bookMapper.toBookDto(book);
-            }
+        Optional<Book> optional = this.bookRepository.findById(id);
+        if (optional.isPresent()) {
+            Book book = optional.get();
+            return this.bookMapper.toBookDto(book);
         }
         return new BookDto();
     }
 
     @Override
     public BookDto update(BookDto dto, Integer id) {
-        for (Book book : bookList) {
-            if (book.getId().equals(id)) {
-                book.setUpdatedAt(LocalDateTime.now());
-
-                this.bookMapper.updateBook(book, dto);
-                return this.bookMapper.toBookDto(book);
-            }
+        Optional<Book> optional = this.bookRepository.findById(id);
+        if (optional.isPresent()) {
+            Book book = optional.get();
+            book.setUpdatedAt(LocalDateTime.now());
+            this.bookMapper.updateBook(book, dto);
+            this.bookRepository.save(book);
+            return this.bookMapper.toBookDto(book);
         }
         return new BookDto();
     }
 
     @Override
     public BookDto delete(Integer id) {
-        for (Book book : bookList) {
-            if (book.getId().equals(id)) {
-                book.setDeletedAt(LocalDateTime.now());
-                //book.setDelete(true);
-                return this.bookMapper.toBookDto(book);
-            }
+        Optional<Book> optional = this.bookRepository.findById(id);
+        if (optional.isPresent()) {
+            Book book = optional.get();
+            book.setDeletedAt(LocalDateTime.now());
+            this.bookRepository.save(book);
+            return this.bookMapper.toBookDto(book);
         }
         return new BookDto();
     }
 
     @Override
     public BookDto deleteById(Integer id) {
-        for (Book book : bookList) {
-            if (book.getId().equals(id)) {
-                bookList.remove(book);
-                return this.bookMapper.toBookDto(book);
-            }
+        Optional<Book> optional = this.bookRepository.findById(id);
+        if (optional.isPresent()) {
+            Book book = optional.get();
+            this.bookRepository.delete(book);
+            return this.bookMapper.toBookDto(book);
         }
         return new BookDto();
     }
 
     @Override
     public List<BookDto> getAllDeletedAtIsNull() {
+        List<Book> bookList = this.bookRepository.findAll();
         if (bookList.isEmpty()) {
             return new ArrayList<>();
         }
@@ -82,6 +81,7 @@ public class BookServiceImpl implements BookService<Integer, BookDto> {
 
     @Override
     public List<BookDto> getAllDeletedAtIsNotNull() {
+        List<Book> bookList = this.bookRepository.findAll();
         if (bookList.isEmpty()) {
             return new ArrayList<>();
         }
@@ -92,9 +92,21 @@ public class BookServiceImpl implements BookService<Integer, BookDto> {
 
     @Override
     public List<BookDto> getAll() {
+        List<Book> bookList = this.bookRepository.findAll();
         if (bookList.isEmpty()) {
             return new ArrayList<>();
         }
-        return bookList.stream().map(this.bookMapper::toBookDto).toList();
+        return bookList
+                .stream()
+                .map(this.bookMapper::toBookDto)
+                .toList();
+    }
+
+    public List<BookDto> deleted_at_is_null() {
+        return this.bookRepository.deleteAtIsNull()
+                .stream()
+                .map(this.bookMapper::toBookDto)
+                .toList();
     }
 }
+

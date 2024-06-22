@@ -1,5 +1,6 @@
 package com.example.Demo_spring_boot_project.dtos.book;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ public class BookController implements BookService<Integer, BookDto> {
 
     @Override
     @PostMapping("/create")
-    public BookDto create(@RequestBody BookDto dto) {
+    public BookDto create(@RequestBody @Valid BookDto dto) {
         return this.bookServiceImpl.create(dto);
     }
 
@@ -57,5 +58,10 @@ public class BookController implements BookService<Integer, BookDto> {
     @GetMapping("/getAll")
     public List<BookDto> getAll() {
         return this.bookServiceImpl.getAll();
+    }
+
+    @GetMapping("/deleted_at_is_null")
+    public List<BookDto> deleted_at_is_null() {
+        return this.bookServiceImpl.deleted_at_is_null();
     }
 }
