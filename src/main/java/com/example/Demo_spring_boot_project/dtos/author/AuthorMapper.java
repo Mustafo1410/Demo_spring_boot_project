@@ -1,9 +1,18 @@
 package com.example.Demo_spring_boot_project.dtos.author;
 
+import com.example.Demo_spring_boot_project.dtos.book.BookDto;
+import com.example.Demo_spring_boot_project.dtos.book.BookMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Component
+@RequiredArgsConstructor
 public class AuthorMapper {
+    private final BookMapper bookMapper;
+
     public Author toAuthor(AuthorDto authorDto) {
 
         return Author.builder()
@@ -11,7 +20,7 @@ public class AuthorMapper {
                 .surname(authorDto.getSurname())
                 .name(authorDto.getName())
                 .age(authorDto.getAge())
-                .books(authorDto.getBooks())
+                //.books(authorDto.getBooks().stream().map(this.bookMapper::toBook).collect(Collectors.toSet()))
                 .updatedAt(authorDto.getUpdatedAt())
                 .deletedAt(authorDto.getDeletedAt())
                 .createdAt(authorDto.getCreatedAt())
@@ -24,7 +33,7 @@ public class AuthorMapper {
                 .surname(author.getSurname())
                 .name(author.getName())
                 .age(author.getAge())
-                .books(author.getBooks())
+                //.books(author.getBooks())
                 .updatedAt(author.getUpdatedAt())
                 .deletedAt(author.getDeletedAt())
                 .createdAt(author.getCreatedAt())
@@ -44,5 +53,16 @@ public class AuthorMapper {
             author.setAge(authorDto.getAge());
     }
 
-
+    public AuthorDto authorDtoWithBooks(Author author) {
+        return AuthorDto.builder()
+                .id(author.getId())
+                .surname(author.getSurname())
+                .name(author.getName())
+                .age(author.getAge())
+                //.books(author.getBooks().stream().map(this.bookMapper::toBookDto).collect(Collectors.toSet()))
+                .updatedAt(author.getUpdatedAt())
+                .deletedAt(author.getDeletedAt())
+                .createdAt(author.getCreatedAt())
+                .build();
+    }
 }

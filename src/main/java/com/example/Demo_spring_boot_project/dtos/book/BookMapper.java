@@ -7,6 +7,7 @@ public class BookMapper {
     public Book toBook(BookDto bookDto) {
         return Book.builder()
                 .id(bookDto.getId())
+                //.authorId(bookDto.getAuthorId())
                 .page(bookDto.getPage())
                 .name(bookDto.getName())
                 .price(bookDto.getPrice())
@@ -20,6 +21,7 @@ public class BookMapper {
     public BookDto toBookDto(Book book) {
         return BookDto.builder()
                 .id(book.getId())
+                //.authorId(book.getAuthorId())
                 .page(book.getPage())
                 .name(book.getName())
                 .price(book.getPrice())

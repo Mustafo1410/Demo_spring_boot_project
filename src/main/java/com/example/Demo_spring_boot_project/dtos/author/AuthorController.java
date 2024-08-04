@@ -8,11 +8,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/author/")
-public class AuthorController implements AuthorServics<Integer,AuthorDto> {
+public class AuthorController implements AuthorServics<Integer, AuthorDto> {
     private final AuthorServiceSimple authorServicsSimple;
+
     @Override
     @PostMapping("/create")
-    public AuthorDto create( @RequestBody AuthorDto dto) {
+    public AuthorDto create(@RequestBody AuthorDto dto) {
         return authorServicsSimple.create(dto);
     }
 
@@ -32,7 +33,6 @@ public class AuthorController implements AuthorServics<Integer,AuthorDto> {
     @Override
     @GetMapping("/get")
     public AuthorDto get(@RequestParam Integer id) {
-
         return authorServicsSimple.get(id);
     }
 
@@ -40,5 +40,10 @@ public class AuthorController implements AuthorServics<Integer,AuthorDto> {
     @GetMapping("/getAll")
     public List<AuthorDto> getAll() {
         return authorServicsSimple.getAll();
+    }
+
+    @GetMapping("/getAuthor")
+    public AuthorDto getAuthor(@RequestParam Integer id) {
+        return this.authorServicsSimple.getAuthor(id);
     }
 }

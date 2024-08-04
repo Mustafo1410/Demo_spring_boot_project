@@ -1,9 +1,12 @@
 package com.example.Demo_spring_boot_project.dtos.author;
 
+import com.example.Demo_spring_boot_project.dtos.book.Book;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,7 +24,18 @@ public class Author {
     private String surname;
     private String name;
     private Integer age;
-    private Integer books;
+    //private Integer books;
+
+    /*@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "authorId")
+    private Set<Book> books;*/
+
+    @ManyToMany
+    @JoinTable(
+            name = "author_book",
+            joinColumns = @JoinColumn(name = "author_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book>books = new HashSet<>();
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

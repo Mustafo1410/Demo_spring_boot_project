@@ -1,6 +1,6 @@
-package com.example.Demo_spring_boot_project.dtos.book;
+package com.example.Demo_spring_boot_project.dtos.school;
 
-import com.example.Demo_spring_boot_project.dtos.school.SchoolDto;
+import com.example.Demo_spring_boot_project.dtos.book.BookDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -11,26 +11,25 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Builder
 @ToString
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class BookDto {
-
+public class SchoolDto {
     private Integer id;
-    @NotBlank(message = "comment is not null")
-    private String comment;
+
+    @NotBlank(message = "name is required")
     private String name;
+    @NotNull(message = "pupils is required")
+    private Integer pupils;
 
-    private Double price;
-    private Integer page;
-    private boolean delete;
+    //private BookDto bookDto;
 
-    //private SchoolDto schoolDto;
-    //private Integer authorId;
+
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
 }

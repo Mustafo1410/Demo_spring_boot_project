@@ -1,10 +1,12 @@
 package com.example.Demo_spring_boot_project.dtos.book;
 
+import com.example.Demo_spring_boot_project.dtos.author.AuthorDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
@@ -13,9 +15,9 @@ public class BookController implements BookService<Integer, BookDto> {
     private final BookServiceImpl bookServiceImpl;
 
     @Override
-    @PostMapping("/create")
-    public BookDto create(@RequestBody @Valid BookDto dto) {
-        return this.bookServiceImpl.create(dto);
+    @PostMapping("/book/{authorId}")
+    public BookDto create(@RequestBody @Valid BookDto dto, @PathVariable("authorId") Set<Integer> authorId) {
+        return this.bookServiceImpl.create(dto,authorId);
     }
 
     @Override
@@ -63,5 +65,16 @@ public class BookController implements BookService<Integer, BookDto> {
     @GetMapping("/deleted_at_is_null")
     public List<BookDto> deleted_at_is_null() {
         return this.bookServiceImpl.deleted_at_is_null();
+    }
+
+    @PostMapping("/createBook")
+    public Book createBook(@RequestBody Book book) {
+        return this.bookServiceImpl.createBook(book);
+    }
+
+    @Override
+    @PostMapping("/{authorId}/book/{book_id}")
+    public String createBookForAuthor(@PathVariable("authorId") Integer authorId, @PathVariable("book_id") Integer book_id) {
+        return this.bookServiceImpl.createBookForAuthor(authorId, book_id);
     }
 }

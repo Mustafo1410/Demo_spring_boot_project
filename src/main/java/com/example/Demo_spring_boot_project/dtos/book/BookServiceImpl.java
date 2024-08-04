@@ -1,5 +1,7 @@
 package com.example.Demo_spring_boot_project.dtos.book;
 
+import com.example.Demo_spring_boot_project.dtos.author.Author;
+import com.example.Demo_spring_boot_project.dtos.author.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -7,16 +9,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService<Integer, BookDto> {
     private final BookMapper bookMapper;
     private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Override
-    public BookDto create(BookDto dto) {
+    public BookDto create(BookDto dto, Set<Integer> authorId) {
         Book book = this.bookMapper.toBook(dto);
+        for (Integer i : authorId) {
+            Author author = this.authorRepository.findById(i)
+                    .orElseThrow(null);
+            author.getBooks().add(book);
+        }
         book.setCreatedAt(LocalDateTime.now());
         this.bookRepository.save(book);
         return this.bookMapper.toBookDto(book);
@@ -107,6 +116,23 @@ public class BookServiceImpl implements BookService<Integer, BookDto> {
                 .stream()
                 .map(this.bookMapper::toBookDto)
                 .toList();
+    }
+
+    @Override
+    public Book createBook(Book book) {
+        book.setCreatedAt(LocalDateTime.now());
+        return this.bookRepository.save(book);
+    }
+
+    @Override
+    public String createBookForAuthor(Integer authorId, Integer book_id) {
+        Book book = this.bookRepository.findById(book_id)
+                .orElseThrow(null);
+        Author author = this.authorRepository.findById(authorId)
+                .orElseThrow(null);
+        author.getBooks().add(book);
+        this.authorRepository.save(author);
+        return "AUTHOR AND BOOK ARE CONNECTED";
     }
 }
 
